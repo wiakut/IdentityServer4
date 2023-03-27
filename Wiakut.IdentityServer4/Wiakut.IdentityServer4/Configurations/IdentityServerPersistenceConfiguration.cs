@@ -6,12 +6,12 @@ namespace Wiakut.IdentityServer4.Configurations;
 
 public static class IdentityServerPersistenceConfiguration
 {
-    public static void ConfigureIdentityPersistence(this IServiceCollection services,
+    public static async void ConfigureIdentityPersistence(this IServiceCollection services,
         ConfigurationManager configuration)
     {
         var assembly = typeof(IdentityServerPersistenceConfiguration).Assembly.GetName().FullName;
         var connectionString = configuration.GetConnectionString("IdentityDatabaseConnection");
-        
+
         services.AddDbContext<AspNetIdentityDbContext>(options => 
             options.UseSqlServer(connectionString, action => action.MigrationsAssembly(assembly)));
 
@@ -31,5 +31,8 @@ public static class IdentityServerPersistenceConfiguration
                     b.UseSqlServer(connectionString, action => action.MigrationsAssembly(assembly));
             })
             .AddDeveloperSigningCredential();
+        
+        
+        await SeedData.EnsureSeedDataAsync(connectionString);
     }
 }

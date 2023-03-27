@@ -9,7 +9,7 @@ using Wiakut.IdentityServer4.Context;
 
 namespace Wiakut.IdentityServer4.Configurations;
 
-public static class IdentityServerSeedDataConfiguration
+public static class SeedData
 {
     public static async Task EnsureSeedDataAsync(string connectionString)
     {
@@ -28,14 +28,14 @@ public static class IdentityServerSeedDataConfiguration
         {
             options.ConfigureDbContext = db =>
                 db.UseSqlServer(connectionString, action =>
-                    action.MigrationsAssembly(typeof(IdentityServerSeedDataConfiguration).Assembly.FullName));
+                    action.MigrationsAssembly(typeof(SeedData).Assembly.FullName));
         });
         
         services.AddConfigurationDbContext(options =>
         {
             options.ConfigureDbContext = db =>
                 db.UseSqlServer(connectionString, action =>
-                    action.MigrationsAssembly(typeof(IdentityServerSeedDataConfiguration).Assembly.FullName));
+                    action.MigrationsAssembly(typeof(SeedData).Assembly.FullName));
         });
 
         var serviceProvider = services.BuildServiceProvider();
@@ -114,7 +114,7 @@ public static class IdentityServerSeedDataConfiguration
                 EmailConfirmed = true
             };
 
-            var createResult = await userManager.CreateAsync(wiakutUser, "Wiakut123");
+            var createResult = await userManager.CreateAsync(wiakutUser, "Wiakut@123");
             if (!createResult.Succeeded)
             {
                 throw new Exception(createResult.Errors.FirstOrDefault()?.Description);

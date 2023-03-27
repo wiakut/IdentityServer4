@@ -8,6 +8,4 @@ public class AspNetIdentityDbContext : IdentityDbContext<IdentityUser<Guid>, Ide
 {
     public AspNetIdentityDbContext(DbContextOptions<AspNetIdentityDbContext> options) 
         : base(options) { }
-    
-    
 }
